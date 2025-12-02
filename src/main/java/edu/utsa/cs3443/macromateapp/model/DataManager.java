@@ -59,6 +59,40 @@ public class DataManager implements Serializable {
         return foods;
     }
 
+    public List<Food> getFoodsForActiveUser() {
+        if (foods == null) return List.of();
+
+        if (activeUser == null || activeUser.getId() == null) {
+            return new ArrayList<>(foods);
+        }
+
+        String uid = activeUser.getId();
+
+        Set<String> allowedCustomFoodItemIds = new HashSet<>();
+        if (customFoods != null) {
+            for (CustomFood cf : customFoods) {
+                if (cf == null) continue;
+                if (uid.equalsIgnoreCase(cf.getUserId())) {
+                    allowedCustomFoodItemIds.add("cf_item_" + cf.getId());
+                }
+            }
+        }
+
+        List<Food> out = new ArrayList<>();
+        for (Food f : foods) {
+            if (f == null) continue;
+            String id = f.getId();
+
+            if (id != null && id.startsWith("cf_item_")) {
+                if (allowedCustomFoodItemIds.contains(id)) out.add(f);
+            } else {
+                out.add(f);
+            }
+        }
+
+        return out;
+    }
+
     public List<CustomFood> getCustomFoods() {
         return customFoods;
     }
@@ -228,7 +262,7 @@ public class DataManager implements Serializable {
         dayLogIndex.put(key, created);
         return created;
     }
-    
+
     public void addFoodLog(LocalDate date, FoodLog log) {
         if (log == null) return;
         DayLog day = getDayLog(date);

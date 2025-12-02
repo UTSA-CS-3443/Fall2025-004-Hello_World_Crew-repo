@@ -55,7 +55,7 @@ public class FoodLibraryController {
         }
 
         if (foodsList != null) {
-            foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoods()));
+            foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoodsForActiveUser()));
         }
 
         if (libraryList != null) {
@@ -92,7 +92,7 @@ public class FoodLibraryController {
         String query = q == null ? "" : q.trim().toLowerCase(Locale.ROOT);
 
         if (foodsList != null) {
-            List<Food> filtered = dataManager.getFoods().stream()
+            List<Food> filtered = dataManager.getFoodsForActiveUser().stream()
                     .filter(Objects::nonNull)
                     .filter(f -> query.isEmpty()
                             || safe(f.getName()).contains(query)
@@ -215,7 +215,7 @@ public class FoodLibraryController {
 
         dataManager.saveAllData();
 
-        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoods()));
+        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoodsForActiveUser()));
         refreshLibrary();
         showStatus("Custom food created.");
     }
@@ -249,7 +249,7 @@ public class FoodLibraryController {
         boolean ok = dataManager.deleteCustomFoodById(target.getId());
         if (!ok) { showError("Could not delete."); return; }
 
-        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoods()));
+        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoodsForActiveUser()));
         refreshLibrary();
         showStatus("Custom food deleted.");
     }
