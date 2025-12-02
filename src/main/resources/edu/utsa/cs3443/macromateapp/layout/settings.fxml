@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.utsa.cs3443.macromateapp.controller.SettingsController"
+            style="-fx-background-color: #f8fafc;">
+    <left>
+        <VBox prefWidth="220" spacing="10" style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-width: 0 1 0 0;">
+            <padding><Insets top="22" right="18" bottom="18" left="18"/></padding>
+
+            <VBox spacing="4">
+                <Label text="MacroMate" style="-fx-font-weight: 800; -fx-text-fill: #111827;"/>
+                <Label fx:id="helloLabel" text="Hello, User!" style="-fx-text-fill: #6b7280;"/>
+            </VBox>
+
+            <Separator/>
+
+            <Button text="Dashboard" maxWidth="1.7976931348623157E308" onAction="#goDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Add Food" maxWidth="1.7976931348623157E308" onAction="#goAddFood"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Food Library" maxWidth="1.7976931348623157E308" onAction="#goFoodLibrary"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="History" maxWidth="1.7976931348623157E308" onAction="#goHistory"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Settings" maxWidth="1.7976931348623157E308" onAction="#goSettings"
+                    style="-fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 12;"/>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <content>
+                <VBox spacing="16">
+                    <padding><Insets top="26" right="28" bottom="26" left="28"/></padding>
+
+                    <VBox spacing="4">
+                        <Label text="Settings">
+                            <font><Font size="26"/></font>
+                        </Label>
+                        <Label text="Manage your account and preferences" style="-fx-text-fill: #6b7280;"/>
+                    </VBox>
+
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+
+                        <Label text="Profile Information" style="-fx-font-weight: 800;"/>
+
+                        <Label text="Full Name" style="-fx-text-fill: #374151;"/>
+                        <TextField fx:id="fullNameField"
+                                   style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+
+                        <Label text="Email Address" style="-fx-text-fill: #374151;"/>
+                        <TextField fx:id="emailField"
+                                   style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+
+                        <Button text="Save Profile" onAction="#handleSaveProfile"
+                                style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                    </VBox>
+
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+
+                        <Label text="Nutrition Goals" style="-fx-font-weight: 800;"/>
+
+                        <Label text="Daily Calorie Goal" style="-fx-text-fill: #374151;"/>
+                        <TextField fx:id="caloriesGoalField" promptText="2000"
+                                   style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+
+                        <GridPane hgap="10" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="33.33"/>
+                                <ColumnConstraints percentWidth="33.33"/>
+                                <ColumnConstraints percentWidth="33.33"/>
+                            </columnConstraints>
+
+                            <VBox GridPane.columnIndex="0" spacing="6">
+                                <Label text="Protein (g)" style="-fx-text-fill: #374151;"/>
+                                <TextField fx:id="proteinGoalField" promptText="150"
+                                           style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+                            </VBox>
+
+                            <VBox GridPane.columnIndex="1" spacing="6">
+                                <Label text="Carbs (g)" style="-fx-text-fill: #374151;"/>
+                                <TextField fx:id="carbsGoalField" promptText="200"
+                                           style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+                            </VBox>
+
+                            <VBox GridPane.columnIndex="2" spacing="6">
+                                <Label text="Fat (g)" style="-fx-text-fill: #374151;"/>
+                                <TextField fx:id="fatGoalField" promptText="65"
+                                           style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+                            </VBox>
+                        </GridPane>
+
+                        <Button text="Save Goals" onAction="#handleSaveGoals"
+                                style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                        <Button text="Reset Goals" onAction="#handleResetGoals"
+                                style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-radius: 10; -fx-background-radius: 10; -fx-font-weight: 800; -fx-padding: 10 14;"/>
+                    </VBox>
+
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+
+                        <Label text="Account" style="-fx-font-weight: 800;"/>
+                        <Label text="Sign out of your MacroMate account" style="-fx-text-fill: #6b7280;"/>
+                        <Button text="Sign Out" onAction="#handleSignOut"
+                                style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 900; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+
+                        <Separator/>
+                        <Label text="App Version" style="-fx-text-fill: #6b7280;"/>
+                        <Label text="MacroMate v1.0.0" style="-fx-text-fill: #111827;"/>
+                    </VBox>
+
+                    <Label fx:id="statusLabel" text="" visible="false" wrapText="true"
+                           style="-fx-text-fill: #065f46; -fx-font-weight: 700;"/>
+                    <Label fx:id="errorLabel" text="" visible="false" wrapText="true"
+                           style="-fx-text-fill: #dc2626; -fx-font-weight: 700;"/>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

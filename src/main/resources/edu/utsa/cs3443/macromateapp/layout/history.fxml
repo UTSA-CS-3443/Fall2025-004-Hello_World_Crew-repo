@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.chart.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.utsa.cs3443.macromateapp.controller.DashboardController"
+            style="-fx-background-color: #f8fafc;">
+
+    <fx:define>
+        <ToggleGroup fx:id="historyToggleGroup"/>
+    </fx:define>
+
+    <left>
+        <VBox prefWidth="220" spacing="10"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-width: 0 1 0 0;">
+            <padding><Insets top="22" right="18" bottom="18" left="18"/></padding>
+
+            <VBox spacing="4">
+                <Label text="MacroMate" style="-fx-font-weight: 800; -fx-text-fill: #111827;"/>
+                <Label fx:id="helloLabel" text="Hello, User!" style="-fx-text-fill: #6b7280;"/>
+            </VBox>
+
+            <Separator/>
+
+            <Button text="Dashboard" maxWidth="1.7976931348623157E308" onAction="#goDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Add Food" maxWidth="1.7976931348623157E308" onAction="#goAddFood"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Food Library" maxWidth="1.7976931348623157E308" onAction="#goFoodLibrary"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="History" maxWidth="1.7976931348623157E308" onAction="#goHistory"
+                    style="-fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 12;"/>
+            <Button text="Settings" maxWidth="1.7976931348623157E308" onAction="#goSettings"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <content>
+                <VBox spacing="16">
+                    <padding><Insets top="26" right="28" bottom="26" left="28"/></padding>
+
+                    <VBox spacing="4">
+                        <Label text="History &amp; Reports">
+                            <font><Font size="26"/></font>
+                        </Label>
+                        <Label text="Track your progress over time" style="-fx-text-fill: #6b7280;"/>
+                    </VBox>
+
+                    <HBox spacing="8">
+                        <ToggleButton fx:id="weeklyTrendsToggle" text="Weekly Trends" selected="true"
+                                      toggleGroup="$historyToggleGroup"
+                                      onAction="#showWeeklyTrends"
+                                      style="-fx-background-radius: 10; -fx-font-weight: 700;"/>
+
+                        <ToggleButton fx:id="dailyDetailsToggle" text="Daily Details"
+                                      toggleGroup="$historyToggleGroup"
+                                      onAction="#showDailyDetails"
+                                      style="-fx-background-radius: 10; -fx-font-weight: 700;"/>
+                    </HBox>
+
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+
+                        <Label text="Calorie Intake (Last 7 Days)" style="-fx-font-weight: 800;"/>
+                        <LineChart fx:id="caloriesChart" animated="false" legendVisible="false" createSymbols="true">
+                            <xAxis>
+                                <CategoryAxis fx:id="caloriesXAxis"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="caloriesYAxis" autoRanging="true"/>
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+
+                        <Label text="Macronutrients (Last 7 Days)" style="-fx-font-weight: 800;"/>
+                        <LineChart fx:id="macrosChart" animated="false" legendVisible="true" createSymbols="false">
+                            <xAxis>
+                                <CategoryAxis fx:id="macrosXAxis"/>
+                            </xAxis>
+                            <yAxis>
+                                <NumberAxis fx:id="macrosYAxis" autoRanging="true"/>
+                            </yAxis>
+                        </LineChart>
+                    </VBox>
+
+                    <VBox spacing="10"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
+
+                        <Label text="Weekly Summary" style="-fx-font-weight: 800;"/>
+
+                        <GridPane hgap="18" vgap="10">
+                            <columnConstraints>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                                <ColumnConstraints percentWidth="25"/>
+                            </columnConstraints>
+
+                            <VBox GridPane.columnIndex="0" spacing="2">
+                                <Label fx:id="avgCaloriesLabel" text="0" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
+                                <Label text="Avg Daily Calories" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+
+                            <VBox GridPane.columnIndex="1" spacing="2">
+                                <Label fx:id="avgProteinLabel" text="0g" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
+                                <Label text="Avg Daily Protein" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+
+                            <VBox GridPane.columnIndex="2" spacing="2">
+                                <Label fx:id="avgCarbsLabel" text="0g" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
+                                <Label text="Avg Daily Carbs" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+
+                            <VBox GridPane.columnIndex="3" spacing="2">
+                                <Label fx:id="avgFatLabel" text="0g" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
+                                <Label text="Avg Daily Fat" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+                        </GridPane>
+                    </VBox>
+
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>
+
+

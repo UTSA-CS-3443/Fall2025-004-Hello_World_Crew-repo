@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<BorderPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="edu.utsa.cs3443.macromateapp.controller.FoodLibraryController"
+            style="-fx-background-color: #f8fafc;">
+
+    <left>
+        <VBox prefWidth="220" spacing="10"
+              style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-width: 0 1 0 0;">
+            <padding><Insets top="22" right="18" bottom="18" left="18"/></padding>
+
+            <VBox spacing="4">
+                <Label text="MacroMate" style="-fx-font-weight: 800; -fx-text-fill: #111827;"/>
+                <Label fx:id="helloLabel" text="Hello, User!" style="-fx-text-fill: #6b7280;"/>
+            </VBox>
+
+            <Separator/>
+
+            <Button text="Dashboard" maxWidth="1.7976931348623157E308" onAction="#goDashboard"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Add Food" maxWidth="1.7976931348623157E308" onAction="#goAddFood"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Food Library" maxWidth="1.7976931348623157E308" onAction="#goFoodLibrary"
+                    style="-fx-background-color: #dbeafe; -fx-text-fill: #1d4ed8; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 12;"/>
+            <Button text="History" maxWidth="1.7976931348623157E308" onAction="#goHistory"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+            <Button text="Settings" maxWidth="1.7976931348623157E308" onAction="#goSettings"
+                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
+
+            <Pane VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </left>
+
+    <center>
+        <VBox spacing="14">
+            <padding><Insets top="22" right="22" bottom="22" left="22"/></padding>
+
+            <VBox spacing="4">
+                <Label text="Food Library">
+                    <font><Font size="26"/></font>
+                </Label>
+                <Label text="Search foods, add to diary, and manage your custom foods" style="-fx-text-fill: #6b7280;"/>
+            </VBox>
+
+            <HBox spacing="10">
+                <TextField fx:id="searchField" promptText="Search by name, brand, or category..."
+                           HBox.hgrow="ALWAYS"
+                           style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e5e7eb;"/>
+                <Button text="Search" onAction="#handleSearch"
+                        style="-fx-background-color: #111827; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                <Button text="Create Custom Food" onAction="#openCreateCustomFood"
+                        style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+            </HBox>
+
+            <HBox spacing="14" VBox.vgrow="ALWAYS">
+
+                <VBox spacing="10" prefWidth="520"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                    <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+                    <Label text="All Foods" style="-fx-font-weight: 900;"/>
+                    <ListView fx:id="foodsList" onMouseClicked="#handleSelectFood" VBox.vgrow="ALWAYS"/>
+                </VBox>
+
+                <VBox spacing="10" HBox.hgrow="ALWAYS"
+                      style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                    <padding><Insets top="14" right="14" bottom="14" left="14"/></padding>
+
+                    <Label fx:id="selectedFoodLabel" text="Select a food item to continue" style="-fx-font-weight: 900;"/>
+
+                    <GridPane hgap="10" vgap="10">
+                        <columnConstraints>
+                            <ColumnConstraints percentWidth="30"/>
+                            <ColumnConstraints percentWidth="70"/>
+                        </columnConstraints>
+
+                        <Label text="Meal" GridPane.rowIndex="0" GridPane.columnIndex="0"/>
+                        <ChoiceBox fx:id="mealTypeChoice" GridPane.rowIndex="0" GridPane.columnIndex="1"/>
+
+                        <Label text="Servings" GridPane.rowIndex="1" GridPane.columnIndex="0"/>
+                        <TextField fx:id="servingsField" promptText="1" GridPane.rowIndex="1" GridPane.columnIndex="1"
+                                   style="-fx-background-color: #f3f4f6; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: transparent;"/>
+
+                        <Label text="Notes" GridPane.rowIndex="2" GridPane.columnIndex="0"/>
+                        <TextArea fx:id="notesArea" prefRowCount="3" GridPane.rowIndex="2" GridPane.columnIndex="1"/>
+                    </GridPane>
+
+                    <HBox spacing="10">
+                        <Button text="Add to Diary" onAction="#handleAddToDiary"
+                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 900; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                    </HBox>
+
+                    <Label fx:id="statusLabel" text="" visible="false" style="-fx-text-fill: #065f46; -fx-font-weight: 800;"/>
+                    <Label fx:id="errorLabel" text="" visible="false" style="-fx-text-fill: #b91c1c; -fx-font-weight: 800;"/>
+
+                    <Separator/>
+
+                    <Label text="Your Custom Foods" style="-fx-font-weight: 900;"/>
+                    <ListView fx:id="libraryList" VBox.vgrow="ALWAYS"/>
+
+                    <Button text="Delete Selected Custom Food" onAction="#handleDeleteSelectedCustomFood"
+                            style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 900; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                </VBox>
+
+            </HBox>
+        </VBox>
+    </center>
+</BorderPane>
+
+

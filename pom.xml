@@ -60,7 +60,7 @@
                         <!-- Default configuration for running with: mvn clean javafx:run -->
                         <id>default-cli</id>
                         <configuration>
-                            <mainClass>edu.utsa.cs3443.macromateapp/edu.utsa.cs3443.macromateapp.HelloApplication
+                            <mainClass>edu.utsa.cs3443.macromateapp/edu.utsa.cs3443.macromateapp.MacroMateApplication
                             </mainClass>
                             <launcher>app</launcher>
                             <jlinkZipName>app</jlinkZipName>
