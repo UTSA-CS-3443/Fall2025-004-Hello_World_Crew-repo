@@ -8,6 +8,7 @@ import edu.utsa.cs3443.macromateapp.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class FoodLibraryController {
     @FXML private TextArea notesArea;
     @FXML private Label statusLabel;
     @FXML private Label errorLabel;
+    @FXML private DatePicker logDatePicker;
 
     @FXML private ListView<String> libraryList;
 
@@ -58,6 +60,9 @@ public class FoodLibraryController {
 
         if (libraryList != null) {
             refreshLibrary();
+        }
+        if (logDatePicker != null) {
+            logDatePicker.setValue(LocalDate.now());
         }
 
         hideMessages();
@@ -146,16 +151,20 @@ public class FoodLibraryController {
 
         String notes = notesArea == null ? "" : notesArea.getText();
 
+        LocalDate logDate = (logDatePicker != null && logDatePicker.getValue() != null)
+                ? logDatePicker.getValue()
+                : LocalDate.now();
+
         FoodLog log = dataManager.createFoodLogFromFood(
                 UUID.randomUUID().toString(),
                 selectedFood,
                 mt,
                 servings,
-                LocalDateTime.now(),
+                LocalDateTime.of(logDate, LocalTime.now()),
                 notes
         );
 
-        dataManager.addFoodLog(LocalDate.now(), log);
+        dataManager.addFoodLog(logDate, log);
         dataManager.saveAllData();
         showStatus("Added to diary.");
     }

@@ -23,6 +23,7 @@ public class DataManager implements Serializable {
     private List<Food> foods;
     private List<CustomFood> customFoods;
     private List<DayLog> dayLogs;
+    private transient Map<LocalDate, DayLog> dayLogIndex;
 
     private Path dataDirectory;
 
@@ -39,6 +40,7 @@ public class DataManager implements Serializable {
         this.usersByEmail = new HashMap<>();
         this.passwordSaltByEmail = new HashMap<>();
         this.passwordHashByEmail = new HashMap<>();
+        this.dayLogIndex = new HashMap<>();
     }
 
     public User getActiveUser() {
@@ -92,6 +94,7 @@ public class DataManager implements Serializable {
             if (usersByEmail == null) usersByEmail = new HashMap<>();
             if (passwordSaltByEmail == null) passwordSaltByEmail = new HashMap<>();
             if (passwordHashByEmail == null) passwordHashByEmail = new HashMap<>();
+            rebuildDayLogIndex();
 
             seedDefaultsIfNeeded();
         } catch (Exception e) {
@@ -104,6 +107,7 @@ public class DataManager implements Serializable {
             passwordSaltByEmail = new HashMap<>();
             passwordHashByEmail = new HashMap<>();
             seedDefaultsIfNeeded();
+            rebuildDayLogIndex();
         }
     }
 
@@ -185,23 +189,43 @@ public class DataManager implements Serializable {
         return true;
     }
 
-    public DayLog getDayLog(LocalDate date) {
-        if (date == null) return null;
+    private void rebuildDayLogIndex() {
+        if (dayLogIndex == null) dayLogIndex = new HashMap<>();
+        dayLogIndex.clear();
 
-        for (DayLog d : dayLogs) {
-            if (d != null && date.equals(d.getDate())) return d;
+        if (dayLogs == null) dayLogs = new ArrayList<>();
+
+        for (DayLog dl : dayLogs) {
+            if (dl == null) continue;
+            LocalDate d = dl.getDate();
+            if (d == null) continue;
+            dayLogIndex.putIfAbsent(d, dl);
         }
+    }
 
-        DayLog created = new DayLog(UUID.randomUUID().toString(), date);
+    public DayLog getDayLog(LocalDate date) {
+        LocalDate d = (date == null) ? LocalDate.now() : date;
+
+        if (dayLogIndex == null) rebuildDayLogIndex();
+
+        DayLog existing = dayLogIndex.get(d);
+        if (existing != null) return existing;
+
+        if (dayLogs == null) dayLogs = new ArrayList<>();
+
+        DayLog created = new DayLog(UUID.randomUUID().toString(), d);
         dayLogs.add(created);
+        dayLogIndex.put(d, created);
         return created;
     }
 
+
     public void addFoodLog(LocalDate date, FoodLog log) {
+        if (log == null) return;
         DayLog day = getDayLog(date);
-        if (day == null) return;
         day.addFoodLog(log);
     }
+
 
     public Goal getActiveGoal() {
         LocalDate today = LocalDate.now();
