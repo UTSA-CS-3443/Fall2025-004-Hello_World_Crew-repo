@@ -72,7 +72,7 @@
                     </GridPane>
 
                     <Button text="Add to Diary" onAction="#handleAddToDiary"
-                            style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 900; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                            style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 14;"/>
 
                     <Label fx:id="statusLabel" text="" visible="false" style="-fx-text-fill: #065f46; -fx-font-weight: 800;"/>
                     <Label fx:id="errorLabel" text="" visible="false" style="-fx-text-fill: #b91c1c; -fx-font-weight: 800;"/>

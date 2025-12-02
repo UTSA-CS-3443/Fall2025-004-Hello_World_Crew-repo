@@ -193,7 +193,7 @@
                                     style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
                             <!-- Existing Add Button -->
                             <Button text="+" onAction="#openAddDinner"
-                                    style="-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                                    style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
                         </HBox>
                         <ListView fx:id="dinnerList" prefHeight="92"/>
                     </VBox>
@@ -214,7 +214,7 @@
                                     style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
                             <!-- Existing Add Button -->
                             <Button text="+" onAction="#openAddSnack"
-                                    style="-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                                    style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
                         </HBox>
                         <ListView fx:id="snackList" prefHeight="92"/>
                     </VBox>

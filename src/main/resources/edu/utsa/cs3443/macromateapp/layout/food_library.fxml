@@ -95,7 +95,7 @@
 
                     <HBox spacing="10">
                         <Button text="Add to Diary" onAction="#handleAddToDiary"
-                                style="-fx-background-color: #3b82f6; -fx-text-fill: white; -fx-font-weight: 900; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                                style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 14;"/>
                         <Pane HBox.hgrow="ALWAYS"/>
                     </HBox>
 
