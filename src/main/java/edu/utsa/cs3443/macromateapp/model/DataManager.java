@@ -23,7 +23,7 @@ public class DataManager implements Serializable {
     private List<Food> foods;
     private List<CustomFood> customFoods;
     private List<DayLog> dayLogs;
-    private transient Map<LocalDate, DayLog> dayLogIndex;
+    private transient Map<String, DayLog> dayLogIndex;
 
     private Path dataDirectory;
 
@@ -65,6 +65,12 @@ public class DataManager implements Serializable {
 
     public List<DayLog> getDayLogs() {
         return dayLogs;
+    }
+
+    private static String dayKey(String userId, LocalDate date) {
+        String u = (userId == null) ? "" : userId;
+        String d = (date == null) ? "" : date.toString();
+        return u + "|" + d;
     }
 
     public void loadAllData() {
@@ -197,29 +203,32 @@ public class DataManager implements Serializable {
 
         for (DayLog dl : dayLogs) {
             if (dl == null) continue;
-            LocalDate d = dl.getDate();
-            if (d == null) continue;
-            dayLogIndex.putIfAbsent(d, dl);
+            if (dl.getDate() == null) continue;
+            String key = dayKey(dl.getUserId(), dl.getDate());
+            dayLogIndex.putIfAbsent(key, dl);
         }
     }
 
     public DayLog getDayLog(LocalDate date) {
         LocalDate d = (date == null) ? LocalDate.now() : date;
 
+        if (activeUser == null) return null;
+        String userId = activeUser.getId();
+
         if (dayLogIndex == null) rebuildDayLogIndex();
 
-        DayLog existing = dayLogIndex.get(d);
+        String key = dayKey(userId, d);
+        DayLog existing = dayLogIndex.get(key);
         if (existing != null) return existing;
 
         if (dayLogs == null) dayLogs = new ArrayList<>();
 
-        DayLog created = new DayLog(UUID.randomUUID().toString(), d);
+        DayLog created = new DayLog(UUID.randomUUID().toString(), userId, d);
         dayLogs.add(created);
-        dayLogIndex.put(d, created);
+        dayLogIndex.put(key, created);
         return created;
     }
-
-
+    
     public void addFoodLog(LocalDate date, FoodLog log) {
         if (log == null) return;
         DayLog day = getDayLog(date);
