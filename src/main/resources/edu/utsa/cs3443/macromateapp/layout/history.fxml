@@ -68,11 +68,13 @@
                                       style="-fx-background-radius: 10; -fx-font-weight: 700;"/>
                     </HBox>
 
+                    <DatePicker fx:id="historyDatePicker" prefWidth="220"/>
+
                     <VBox spacing="12"
                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
                         <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
 
-                        <Label text="Calorie Intake (Last 7 Days)" style="-fx-font-weight: 800;"/>
+                        <Label fx:id="caloriesTitleLabel" text="Calorie Intake (Last 7 Days)" style="-fx-font-weight: 800;"/>
                         <LineChart fx:id="caloriesChart" animated="false" legendVisible="false" createSymbols="true">
                             <xAxis>
                                 <CategoryAxis fx:id="caloriesXAxis"/>
@@ -87,7 +89,7 @@
                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
                         <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
 
-                        <Label text="Macronutrients (Last 7 Days)" style="-fx-font-weight: 800;"/>
+                        <Label fx:id="macrosTitleLabel" text="Macronutrients (Last 7 Days)" style="-fx-font-weight: 800;"/>
                         <LineChart fx:id="macrosChart" animated="false" legendVisible="true" createSymbols="false">
                             <xAxis>
                                 <CategoryAxis fx:id="macrosXAxis"/>
@@ -102,7 +104,8 @@
                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
                         <padding><Insets top="16" right="18" bottom="16" left="18"/></padding>
 
-                        <Label text="Weekly Summary" style="-fx-font-weight: 800;"/>
+                        <Label fx:id="summaryTitleLabel" text="Weekly Summary" style="-fx-font-weight: 800;"/>
+
 
                         <GridPane hgap="18" vgap="10">
                             <columnConstraints>
