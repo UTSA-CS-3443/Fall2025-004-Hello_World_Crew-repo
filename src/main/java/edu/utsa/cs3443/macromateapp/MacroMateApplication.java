@@ -73,7 +73,7 @@ public class MacroMateApplication extends Application {
             throw new RuntimeException("Failed to load FXML: " + fxmlResource, e);
         }
     }
-    
+
     private static void updateSidebarHighlight(String fxmlName) {
         fxmlName = fxmlName.toLowerCase();
 
