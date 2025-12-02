@@ -7,6 +7,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 
+<?import javafx.scene.image.Image?>
 <StackPane xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
            fx:controller="edu.utsa.cs3443.macromateapp.controller.LoginController"
            style="-fx-background-color: linear-gradient(to bottom right, #00b894, #00a3a3);">
@@ -17,7 +18,16 @@
         </padding>
 
         <VBox alignment="CENTER" spacing="6">
-            <ImageView fitHeight="28" fitWidth="28" pickOnBounds="true" preserveRatio="true"/>
+            <ImageView
+                    fx:id="logoImage"
+                    fitHeight="200"
+                    fitWidth="200"
+                    preserveRatio="true"
+                    pickOnBounds="true">
+                <image>
+                    <Image url="@../images/macromate_logo.png"/>
+                </image>
+            </ImageView>
             <Label text="Welcome to MacroMate">
                 <font>
                     <Font size="22"/>

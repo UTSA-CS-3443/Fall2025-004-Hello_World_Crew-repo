@@ -7,6 +7,7 @@ import javafx.scene.control.TextField;
 import edu.utsa.cs3443.macromateapp.MacroMateApplication;
 import edu.utsa.cs3443.macromateapp.model.DataManager;
 import edu.utsa.cs3443.macromateapp.model.User;
+import javafx.scene.image.ImageView;
 
 public class LoginController {
 
@@ -15,6 +16,8 @@ public class LoginController {
     @FXML private TextField emailField;
     @FXML private PasswordField passwordField;
     @FXML private Label errorLabel;
+    @FXML private ImageView logoImage;
+
 
     @FXML private TextField fullNameField;
     @FXML private TextField signUpEmailField;

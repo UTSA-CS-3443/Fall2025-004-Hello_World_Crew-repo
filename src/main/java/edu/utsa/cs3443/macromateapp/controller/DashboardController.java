@@ -214,6 +214,20 @@ public class DashboardController {
     public void showDailyDetails() {
         showWeeklyTrends();
     }
+
+    @FXML
+    public void handleLogout() {
+        // Clear active user if needed
+        if (dataManager != null) {
+            dataManager.setActiveUser(null);
+            dataManager.saveAllData();
+        }
+
+        MacroMateApplication.switchScene("login.fxml", "MacroMate - Login");
+    }
+
 }
+
+
 
 
