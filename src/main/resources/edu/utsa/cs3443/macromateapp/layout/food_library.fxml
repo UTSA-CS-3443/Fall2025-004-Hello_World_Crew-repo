@@ -10,6 +10,8 @@
             style="-fx-background-color: #f8fafc;">
 
     <left>
+        <fx:include source="sidebar.fxml"/>
+        <!--
         <VBox prefWidth="220" spacing="10"
               style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-width: 0 1 0 0;">
             <padding><Insets top="22" right="18" bottom="18" left="18"/></padding>
@@ -33,7 +35,7 @@
                     style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
 
             <Pane VBox.vgrow="ALWAYS"/>
-        </VBox>
+        </VBox> -->
     </left>
 
     <center>

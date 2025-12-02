@@ -34,6 +34,8 @@ public class SettingsController {
 
     @FXML
     private void initialize() {
+        SidebarController.highlight("settings");
+
         if (dataManager == null) return;
 
         User u = dataManager.getActiveUser();

@@ -36,6 +36,9 @@ public class FoodLibraryController {
 
     @FXML
     private void initialize() {
+
+        SidebarController.highlight("addfood");
+
         if (dataManager == null) return;
 
         User u = dataManager.getActiveUser();

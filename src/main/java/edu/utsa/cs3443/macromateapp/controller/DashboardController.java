@@ -58,6 +58,9 @@ public class DashboardController {
 
     @FXML
     private void initialize() {
+
+        SidebarController.highlight("dashboard");
+
         if (dataManager == null) return;
 
         User u = dataManager.getActiveUser();
@@ -77,6 +80,7 @@ public class DashboardController {
         if (caloriesChart != null || macrosChart != null) {
             showWeeklyTrends();
         }
+
     }
 
     private void refreshDashboard() {

@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.geometry.Pos?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+
+<VBox xmlns="http://javafx.com/javafx/21"
+      xmlns:fx="http://javafx.com/fxml/1"
+      fx:controller="edu.utsa.cs3443.macromateapp.controller.SidebarController"
+      fx:id="sidebarRoot"
+      prefWidth="220"
+      spacing="10"
+      style="-fx-background-color: #ffffff;
+             -fx-border-color: #e5e7eb;
+             -fx-border-width: 0 1 0 0;">
+
+    <padding>
+        <Insets top="22" right="18" bottom="18" left="18"/>
+    </padding>
+
+    <!-- Logo + Name -->
+    <VBox alignment="CENTER" spacing="8">
+        <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
+            <image>
+                <Image url="@../images/macromate_logo.png"/>
+            </image>
+        </ImageView>
+
+        <!-- <Label text="MacroMate" style="-fx-font-weight: 800; -fx-text-fill: #111827;"/> -->
+
+        <Label fx:id="helloLabel"
+               text="Hello, User!"
+               style="-fx-text-fill: #6b7280;"/>
+    </VBox>
+
+    <Separator/>
+
+    <!-- Navigation Buttons -->
+    <Button fx:id="dashboardBtn"
+            text="Dashboard"
+            maxWidth="1.7976931348623157E308"
+            onAction="#goDashboard"
+            style="-fx-background-color: transparent;
+                   -fx-text-fill: #374151;
+                   -fx-font-weight: 700;
+                   -fx-padding: 10 12;"/>
+
+    <Button fx:id="addFoodBtn"
+            text="Add Food"
+            maxWidth="1.7976931348623157E308"
+            onAction="#goAddFood"
+            style="-fx-background-color: transparent;
+                   -fx-text-fill: #374151;
+                   -fx-font-weight: 600;
+                   -fx-padding: 10 12;"/>
+
+    <Button fx:id="foodLibraryBtn"
+            text="Food Library"
+            maxWidth="1.7976931348623157E308"
+            onAction="#goFoodLibrary"
+            style="-fx-background-color: transparent;
+                   -fx-text-fill: #374151;
+                   -fx-font-weight: 600;
+                   -fx-padding: 10 12;"/>
+
+    <Button fx:id="historyBtn"
+            text="History"
+            maxWidth="1.7976931348623157E308"
+            onAction="#goHistory"
+            style="-fx-background-color: transparent;
+                   -fx-text-fill: #374151;
+                   -fx-font-weight: 600;
+                   -fx-padding: 10 12;"/>
+
+    <Button fx:id="settingsBtn"
+            text="Settings"
+            maxWidth="1.7976931348623157E308"
+            onAction="#goSettings"
+            style="-fx-background-color: transparent;
+                   -fx-text-fill: #374151;
+                   -fx-font-weight: 600;
+                   -fx-padding: 10 12;"/>
+
+    <!-- Spacer pushes logout button down -->
+    <Pane VBox.vgrow="ALWAYS"/>
+
+    <!-- Logout -->
+    <Button text="Log Out"
+            maxWidth="1.7976931348623157E308"
+            onAction="#handleLogout"
+            style="-fx-background-color: #059669;
+                   -fx-text-fill: white;
+                   -fx-font-weight: 700;
+                   -fx-background-radius: 10;
+                   -fx-padding: 10 12;"/>
+</VBox>

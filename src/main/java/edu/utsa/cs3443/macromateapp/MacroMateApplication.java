@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import edu.utsa.cs3443.macromateapp.controller.SidebarController;
 import edu.utsa.cs3443.macromateapp.model.DataManager;
 
 import java.lang.reflect.Method;
@@ -27,17 +28,20 @@ public class MacroMateApplication extends Application {
 
     public static void switchScene(String fxmlResource, String title) {
         try {
-            //FXMLLoader loader = new FXMLLoader(MacroMateApplication.class.getResource("/myself/macromate1/view/" + fxmlResource));
-            FXMLLoader loader = new FXMLLoader(MacroMateApplication.class.getResource("/edu/utsa/cs3443/macromateapp/layout/" + fxmlResource)
-            );
+            FXMLLoader loader = new FXMLLoader(MacroMateApplication.class.getResource(
+                    "/edu/utsa/cs3443/macromateapp/layout/" + fxmlResource
+            ));
+
+            // Inject DataManager into any controller that has setDataManager()
             loader.setControllerFactory(clazz -> {
                 try {
                     Object controller = clazz.getDeclaredConstructor().newInstance();
+
                     try {
                         Method m = clazz.getMethod("setDataManager", DataManager.class);
                         m.invoke(controller, dataManager);
-                    } catch (NoSuchMethodException ignored) {
-                    }
+                    } catch (NoSuchMethodException ignored) { }
+
                     return controller;
                 } catch (Exception e) {
                     throw new RuntimeException(e);
@@ -46,6 +50,7 @@ public class MacroMateApplication extends Application {
 
             Parent root = loader.load();
 
+            // Set up the scene or update its root
             if (mainScene == null) {
                 mainScene = new Scene(root, APP_W, APP_H);
                 primaryStage.setScene(mainScene);
@@ -62,8 +67,26 @@ public class MacroMateApplication extends Application {
             primaryStage.centerOnScreen();
             primaryStage.show();
 
+            updateSidebarHighlight(fxmlResource);
+
         } catch (Exception e) {
             throw new RuntimeException("Failed to load FXML: " + fxmlResource, e);
+        }
+    }
+    
+    private static void updateSidebarHighlight(String fxmlName) {
+        fxmlName = fxmlName.toLowerCase();
+
+        if (fxmlName.contains("dashboard")) {
+            SidebarController.highlight("dashboard");
+        } else if (fxmlName.contains("add_food")) {
+            SidebarController.highlight("addfood");
+        } else if (fxmlName.contains("food_library")) {
+            SidebarController.highlight("library");
+        } else if (fxmlName.contains("history")) {
+            SidebarController.highlight("history");
+        } else if (fxmlName.contains("settings")) {
+            SidebarController.highlight("settings");
         }
     }
 
@@ -71,6 +94,7 @@ public class MacroMateApplication extends Application {
     public void start(Stage stage) {
         primaryStage = stage;
 
+        // Load data folder in user's home directory
         Path dir = Paths.get(System.getProperty("user.home"), ".macromate1");
         dataManager = new DataManager(dir);
         dataManager.loadAllData();
