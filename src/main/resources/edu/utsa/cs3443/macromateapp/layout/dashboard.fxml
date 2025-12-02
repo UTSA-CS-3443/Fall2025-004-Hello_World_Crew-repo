@@ -63,148 +63,164 @@
 
 
             </VBox> -->
-     </left>
+    </left>
 
 
-     <center>
-         <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
-             <content>
-                 <VBox spacing="18">
-                     <padding>
-                         <Insets top="26" right="28" bottom="26" left="28"/>
-                     </padding>
+    <center>
+        <ScrollPane fitToWidth="true" style="-fx-background-color: transparent;">
+            <content>
+                <VBox spacing="18">
+                    <padding>
+                        <Insets top="26" right="28" bottom="26" left="28"/>
+                    </padding>
 
-                     <HBox alignment="TOP_LEFT">
-                         <VBox spacing="4">
-                             <Label text="Today's Summary">
-                                 <font>
-                                     <Font size="26"/>
-                                 </font>
-                             </Label>
-                             <Label fx:id="dateLabel" text="Tuesday, October 21, 2025" style="-fx-text-fill: #6b7280;"/>
-                         </VBox>
-                         <Pane HBox.hgrow="ALWAYS"/>
-                         <Button text="+  Add Food" onAction="#goAddFood"
-                                 style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 14;"/>
-                     </HBox>
+                    <HBox alignment="TOP_LEFT">
+                        <VBox spacing="4">
+                            <Label text="Today's Summary">
+                                <font>
+                                    <Font size="26"/>
+                                </font>
+                            </Label>
+                            <Label fx:id="dateLabel" text="Tuesday, October 21, 2025" style="-fx-text-fill: #6b7280;"/>
+                        </VBox>
+                        <Pane HBox.hgrow="ALWAYS"/>
+                        <Button text="+  Add Food" onAction="#goAddFood"
+                                style="-fx-background-color: #059669; -fx-text-fill: white; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                    </HBox>
 
-                     <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                         <padding>
-                             <Insets top="16" right="18" bottom="16" left="18"/>
-                         </padding>
+                    <VBox spacing="10" style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding>
+                            <Insets top="16" right="18" bottom="16" left="18"/>
+                        </padding>
 
-                         <Label text="Daily Calories" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
-                         <Label fx:id="calorieProgressLabel" text="0 / 2000" style="-fx-text-fill: #6b7280;"/>
-                         <ProgressBar fx:id="calorieProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"/>
-                         <Label fx:id="calorieRemainingLabel" text="2000 kcal remaining" style="-fx-text-fill: #6b7280;"/>
-                     </VBox>
+                        <Label text="Daily Calories" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
+                        <Label fx:id="calorieProgressLabel" text="0 / 2000" style="-fx-text-fill: #6b7280;"/>
+                        <ProgressBar fx:id="calorieProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"/>
+                        <Label fx:id="calorieRemainingLabel" text="2000 kcal remaining" style="-fx-text-fill: #6b7280;"/>
+                    </VBox>
 
-                     <HBox spacing="14">
-                         <VBox spacing="9" HBox.hgrow="ALWAYS"
-                               style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                             <padding>
-                                 <Insets top="16" right="18" bottom="16" left="18"/>
-                             </padding>
-                             <Label text="Protein" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
-                             <Label fx:id="proteinLabel" text="0g / 150g" style="-fx-font-size: 16;"/>
-                             <ProgressBar fx:id="proteinProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
-                                          style="-fx-accent: #F3622D;"/>
-                         </VBox>
+                    <HBox spacing="14">
+                        <VBox spacing="9" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                            <padding>
+                                <Insets top="16" right="18" bottom="16" left="18"/>
+                            </padding>
+                            <Label text="Protein" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
+                            <Label fx:id="proteinLabel" text="0g / 150g" style="-fx-font-size: 16;"/>
+                            <ProgressBar fx:id="proteinProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
+                                         style="-fx-accent: #F3622D;"/>
+                        </VBox>
 
-                         <VBox spacing="9" HBox.hgrow="ALWAYS"
-                               style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                             <padding>
-                                 <Insets top="16" right="18" bottom="16" left="18"/>
-                             </padding>
-                             <Label text="Carbs" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
-                             <Label fx:id="carbsLabel" text="0g / 200g" style="-fx-font-size: 16;"/>
-                             <ProgressBar fx:id="carbsProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
-                                          style="-fx-accent: #FBA71B;"/>
-                         </VBox>
+                        <VBox spacing="9" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                            <padding>
+                                <Insets top="16" right="18" bottom="16" left="18"/>
+                            </padding>
+                            <Label text="Carbs" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
+                            <Label fx:id="carbsLabel" text="0g / 200g" style="-fx-font-size: 16;"/>
+                            <ProgressBar fx:id="carbsProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
+                                         style="-fx-accent: #FBA71B;"/>
+                        </VBox>
 
-                         <VBox spacing="9" HBox.hgrow="ALWAYS"
-                               style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                             <padding>
-                                 <Insets top="16" right="18" bottom="16" left="18"/>
-                             </padding>
-                             <Label text="Fat" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
-                             <Label fx:id="fatLabel" text="0g / 65g" style="-fx-font-size: 16;"/>
-                             <ProgressBar fx:id="fatProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
-                                          style="-fx-accent: #57B757;"/>
-                         </VBox>
-                     </HBox>
+                        <VBox spacing="9" HBox.hgrow="ALWAYS"
+                              style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                            <padding>
+                                <Insets top="16" right="18" bottom="16" left="18"/>
+                            </padding>
+                            <Label text="Fat" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
+                            <Label fx:id="fatLabel" text="0g / 65g" style="-fx-font-size: 16;"/>
+                            <ProgressBar fx:id="fatProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
+                                         style="-fx-accent: #57B757;"/>
+                        </VBox>
+                    </HBox>
 
-                     <VBox spacing="12"
-                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                         <padding>
-                             <Insets top="16" right="18" bottom="16" left="18"/>
-                         </padding>
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding>
+                            <Insets top="16" right="18" bottom="16" left="18"/>
+                        </padding>
 
-                         <HBox alignment="CENTER_LEFT">
-                             <VBox spacing="4">
-                                 <Label text="Breakfast" style="-fx-font-weight: 800;"/>
-                                 <Label fx:id="breakfastCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
-                             </VBox>
-                             <Pane HBox.hgrow="ALWAYS"/>
-                             <Button text="+" onAction="#openAddBreakfast"
-                                     style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-background-radius: 8; -fx-font-weight: 800; -fx-padding: 6 10;"/>
-                         </HBox>
-                         <ListView fx:id="breakfastList" prefHeight="92"/>
-                     </VBox>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label text="Breakfast" style="-fx-font-weight: 800;"/>
+                                <Label fx:id="breakfastCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <!-- New delete button -->
+                            <Button text="Delete Selected"
+                                    onAction="#handleDeleteBreakfastItem"
+                                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                            <!-- Existing add button -->
+                            <Button text="+" onAction="#openAddBreakfast"
+                                    style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-background-radius: 8; -fx-font-weight: 800; -fx-padding: 6 10;"/>
+                        </HBox>
+                        <ListView fx:id="breakfastList" prefHeight="92"/>
+                    </VBox>
 
-                     <VBox spacing="12"
-                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                         <padding>
-                             <Insets top="16" right="18" bottom="16" left="18"/>
-                         </padding>
-                         <HBox alignment="CENTER_LEFT">
-                             <VBox spacing="4">
-                                 <Label text="Lunch" style="-fx-font-weight: 800;"/>
-                                 <Label fx:id="lunchCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
-                             </VBox>
-                             <Pane HBox.hgrow="ALWAYS"/>
-                             <Button text="+" onAction="#openAddLunch"
-                                     style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-background-radius: 8; -fx-font-weight: 800; -fx-padding: 6 10;"/>
-                         </HBox>
-                         <ListView fx:id="lunchList" prefHeight="92"/>
-                     </VBox>
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding>
+                            <Insets top="16" right="18" bottom="16" left="18"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label text="Lunch" style="-fx-font-weight: 800;"/>
+                                <Label fx:id="lunchCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Button text="Delete Selected"
+                                    onAction="#handleDeleteLunchItem"
+                                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                            <Button text="+" onAction="#openAddLunch"
+                                    style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-background-radius: 8; -fx-font-weight: 800; -fx-padding: 6 10;"/>
+                        </HBox>
+                        <ListView fx:id="lunchList" prefHeight="92"/>
+                    </VBox>
 
-                     <VBox spacing="12"
-                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                         <padding>
-                             <Insets top="16" right="18" bottom="16" left="18"/>
-                         </padding>
-                         <HBox alignment="CENTER_LEFT">
-                             <VBox spacing="4">
-                                 <Label text="Dinner" style="-fx-font-weight: 800;"/>
-                                 <Label fx:id="dinnerCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
-                             </VBox>
-                             <Pane HBox.hgrow="ALWAYS"/>
-                             <Button text="+" onAction="#openAddDinner"
-                                     style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-background-radius: 8; -fx-font-weight: 800; -fx-padding: 6 10;"/>
-                         </HBox>
-                         <ListView fx:id="dinnerList" prefHeight="92"/>
-                     </VBox>
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding>
+                            <Insets top="16" right="18" bottom="16" left="18"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label text="Dinner" style="-fx-font-weight: 800;"/>
+                                <Label fx:id="dinnerCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Button text="Delete Selected"
+                                    onAction="#handleDeleteDinnerItem"
+                                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                            <!-- Existing Add Button -->
+                            <Button text="+" onAction="#openAddDinner"
+                                    style="-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                        </HBox>
+                        <ListView fx:id="dinnerList" prefHeight="92"/>
+                    </VBox>
 
-                     <VBox spacing="12"
-                           style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
-                         <padding>
-                             <Insets top="16" right="18" bottom="16" left="18"/>
-                         </padding>
-                         <HBox alignment="CENTER_LEFT">
-                             <VBox spacing="4">
-                                 <Label text="Snack" style="-fx-font-weight: 800;"/>
-                                 <Label fx:id="snackCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
-                             </VBox>
-                             <Pane HBox.hgrow="ALWAYS"/>
-                             <Button text="+" onAction="#openAddSnack"
-                                     style="-fx-background-color: #f3f4f6; -fx-text-fill: #111827; -fx-background-radius: 8; -fx-font-weight: 800; -fx-padding: 6 10;"/>
-                         </HBox>
-                         <ListView fx:id="snackList" prefHeight="92"/>
-                     </VBox>
+                    <VBox spacing="12"
+                          style="-fx-background-color: white; -fx-background-radius: 14; -fx-border-color: #e5e7eb; -fx-border-radius: 14;">
+                        <padding>
+                            <Insets top="16" right="18" bottom="16" left="18"/>
+                        </padding>
+                        <HBox alignment="CENTER_LEFT">
+                            <VBox spacing="4">
+                                <Label text="Snacks" style="-fx-font-weight: 800;"/>
+                                <Label fx:id="snackCaloriesLabel" text="0 kcal" style="-fx-text-fill: #6b7280;"/>
+                            </VBox>
+                            <Pane HBox.hgrow="ALWAYS"/>
+                            <Button text="Delete Selected"
+                                    onAction="#handleDeleteSnackItem"
+                                    style="-fx-background-color: #ef4444; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                            <!-- Existing Add Button -->
+                            <Button text="+" onAction="#openAddSnack"
+                                    style="-fx-background-color: #22c55e; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 8; -fx-padding: 6 10;"/>
+                        </HBox>
+                        <ListView fx:id="snackList" prefHeight="92"/>
+                    </VBox>
 
-                 </VBox>
-             </content>
-         </ScrollPane>
-     </center>
- </BorderPane>
+                </VBox>
+            </content>
+        </ScrollPane>
+    </center>
+</BorderPane>

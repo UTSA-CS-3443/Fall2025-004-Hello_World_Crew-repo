@@ -174,7 +174,74 @@ public class DashboardController {
     @FXML public void openAddLunch() { goAddFood(); }
     @FXML public void openAddDinner() { goAddFood(); }
     @FXML public void openAddSnack() { goAddFood(); }
+    // Called by the Delete buttons in dashboard.fxml
+    @FXML
+    public void handleDeleteBreakfastItem() {
+        deleteSelectedFrom(breakfastList, FoodLog.MealType.BREAKFAST);
+    }
 
+    @FXML
+    public void handleDeleteLunchItem() {
+        deleteSelectedFrom(lunchList, FoodLog.MealType.LUNCH);
+    }
+
+    @FXML
+    public void handleDeleteDinnerItem() {
+        deleteSelectedFrom(dinnerList, FoodLog.MealType.DINNER);
+    }
+
+    @FXML
+    public void handleDeleteSnackItem() {
+        deleteSelectedFrom(snackList, FoodLog.MealType.SNACK);
+    }
+
+    // Helper method to delete the selected item from a meal list
+    private void deleteSelectedFrom(ListView<String> view, FoodLog.MealType mealType) {
+        if (view == null || dataManager == null) return;
+
+        // What the user clicked in the ListView
+        String selected = view.getSelectionModel().getSelectedItem();
+        if (selected == null || selected.isBlank() || "No items added yet".equals(selected)) {
+            // Nothing useful selected
+            return;
+        }
+
+        // Get today's DayLog (same one used to build the dashboard lists)
+        DayLog today = dataManager.getDayLog(LocalDate.now());
+        if (today == null) return;
+
+        FoodLog toRemove = null;
+
+        // Rebuild the *display text* exactly like refreshDashboard() does and match it
+        for (FoodLog log : today.getFoodLogs()) {
+            if (log == null) continue;
+
+            FoodLog.MealType mt = (log.getMealType() == null)
+                    ? FoodLog.MealType.SNACK
+                    : log.getMealType();
+            if (mt != mealType) continue;
+
+            String name = dataManager.resolveFoodNameById(log.getCustomFoodId());
+            if (name == null || name.isBlank()) name = "Item";
+
+            String line = "%s - %.0f kcal (%s)".formatted(
+                    name,
+                    log.gtCalories(),
+                    log.getFormattedTime()
+            );
+
+            if (line.equals(selected)) {
+                toRemove = log;
+                break;
+            }
+        }
+
+        if (toRemove != null) {
+            today.removeFoodLog(toRemove);  // updates totals in DayLog
+            // Rebuild the lists, labels, and progress bars
+            refreshDashboard();
+        }
+    }
     @FXML
     public void showWeeklyTrends() {
         if (dataManager == null) return;
