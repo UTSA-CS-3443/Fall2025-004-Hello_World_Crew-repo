@@ -55,8 +55,10 @@
                            style="-fx-background-color: white; -fx-background-radius: 10; -fx-border-radius: 10; -fx-border-color: #e5e7eb;"/>
                 <Button text="Search" onAction="#handleSearch"
                         style="-fx-background-color: #111827; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                <!--
                 <Button text="Create Custom Food" onAction="#openCreateCustomFood"
                         style="-fx-background-color: #10b981; -fx-text-fill: white; -fx-font-weight: 800; -fx-background-radius: 10; -fx-padding: 10 14;"/>
+                        -->
             </HBox>
 
             <HBox spacing="14" VBox.vgrow="ALWAYS">
