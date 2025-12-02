@@ -16,17 +16,24 @@ public class DayLog implements Serializable {
     private LocalDate date;
     private List<FoodLog> foodLogs;
 
+    private String userId;
+
     private int totalCalories;
     private double totalProteinG;
     private double totalCarbsG;
     private double totalFatG;
 
     public DayLog() {
-        this("", LocalDate.now());
+        this("", "", LocalDate.now());
     }
 
     public DayLog(String id, LocalDate date) {
+        this(id, "", date);
+    }
+
+    public DayLog(String id, String userId, LocalDate date) {
         this.id = id;
+        this.userId = (userId == null) ? "" : userId;
         this.date = date;
         this.foodLogs = new ArrayList<>();
     }
@@ -66,6 +73,9 @@ public class DayLog implements Serializable {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public String getUserId() { return userId; }
+    public void setUserId(String userId) { this.userId = (userId == null) ? "" : userId; }
 
     public void addFoodLog(FoodLog log) {
         if (log == null) return;

@@ -107,7 +107,8 @@
                              </padding>
                              <Label text="Protein" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
                              <Label fx:id="proteinLabel" text="0g / 150g" style="-fx-font-size: 16;"/>
-                             <ProgressBar fx:id="proteinProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"/>
+                             <ProgressBar fx:id="proteinProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
+                                          style="-fx-accent: #F3622D;"/>
                          </VBox>
 
                          <VBox spacing="9" HBox.hgrow="ALWAYS"
@@ -117,7 +118,8 @@
                              </padding>
                              <Label text="Carbs" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
                              <Label fx:id="carbsLabel" text="0g / 200g" style="-fx-font-size: 16;"/>
-                             <ProgressBar fx:id="carbsProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"/>
+                             <ProgressBar fx:id="carbsProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
+                                          style="-fx-accent: #FBA71B;"/>
                          </VBox>
 
                          <VBox spacing="9" HBox.hgrow="ALWAYS"
@@ -127,7 +129,8 @@
                              </padding>
                              <Label text="Fat" style="-fx-font-weight: 700; -fx-text-fill: #111827;"/>
                              <Label fx:id="fatLabel" text="0g / 65g" style="-fx-font-size: 16;"/>
-                             <ProgressBar fx:id="fatProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"/>
+                             <ProgressBar fx:id="fatProgressBar" progress="0.0" prefHeight="10" maxWidth="1.7976931348623157E308"
+                                          style="-fx-accent: #57B757;"/>
                          </VBox>
                      </HBox>
 

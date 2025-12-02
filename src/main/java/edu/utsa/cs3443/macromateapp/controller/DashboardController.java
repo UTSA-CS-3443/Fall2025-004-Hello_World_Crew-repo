@@ -9,6 +9,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ProgressBar;
 import edu.utsa.cs3443.macromateapp.MacroMateApplication;
 import edu.utsa.cs3443.macromateapp.model.*;
+import javafx.scene.control.DatePicker;
+import javafx.scene.chart.CategoryAxis;
+
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
@@ -52,6 +55,11 @@ public class DashboardController {
     @FXML private Label avgCarbsLabel;
     @FXML private Label avgFatLabel;
 
+    @FXML private DatePicker historyDatePicker;
+    @FXML private Label caloriesTitleLabel;
+    @FXML private Label macrosTitleLabel;
+    @FXML private Label summaryTitleLabel;
+
     public void setDataManager(DataManager dataManager) {
         this.dataManager = dataManager;
     }
@@ -75,6 +83,13 @@ public class DashboardController {
 
         if (breakfastList != null || lunchList != null || dinnerList != null || snackList != null) {
             refreshDashboard();
+        }
+        if (historyDatePicker != null) {
+            historyDatePicker.setValue(LocalDate.now());
+            historyDatePicker.valueProperty().addListener((obs, oldV, newV) -> {
+                if (newV == null) return;
+                showDailyDetails();
+            });
         }
 
         if (caloriesChart != null || macrosChart != null) {
@@ -164,6 +179,11 @@ public class DashboardController {
     public void showWeeklyTrends() {
         if (dataManager == null) return;
 
+        if (caloriesTitleLabel != null) caloriesTitleLabel.setText("Calorie Intake (Last 7 Days)");
+        if (macrosTitleLabel != null) macrosTitleLabel.setText("Macronutrients (Last 7 Days)");
+        if (summaryTitleLabel != null) summaryTitleLabel.setText("Weekly Summary");
+
+
         List<LocalDate> days = new ArrayList<>();
         for (int i = 6; i >= 0; i--) days.add(LocalDate.now().minusDays(i));
 
@@ -216,7 +236,97 @@ public class DashboardController {
 
     @FXML
     public void showDailyDetails() {
-        showWeeklyTrends();
+        if (dataManager == null) return;
+
+        LocalDate date = LocalDate.now();
+        if (historyDatePicker != null && historyDatePicker.getValue() != null) {
+            date = historyDatePicker.getValue();
+        }
+        if (caloriesTitleLabel != null) caloriesTitleLabel.setText("Calorie Intake (Today)");
+        if (macrosTitleLabel != null) macrosTitleLabel.setText("Macronutrients (Today)");
+        if (summaryTitleLabel != null) summaryTitleLabel.setText("Daily Summary");
+
+        DayLog day = dataManager.getDayLog(date);
+        if (day == null) return;
+
+        Map<FoodLog.MealType, Double> calByMeal = new EnumMap<>(FoodLog.MealType.class);
+        Map<FoodLog.MealType, Double> pByMeal = new EnumMap<>(FoodLog.MealType.class);
+        Map<FoodLog.MealType, Double> cByMeal = new EnumMap<>(FoodLog.MealType.class);
+        Map<FoodLog.MealType, Double> fByMeal = new EnumMap<>(FoodLog.MealType.class);
+
+        for (FoodLog.MealType mt : FoodLog.MealType.values()) {
+            calByMeal.put(mt, 0.0);
+            pByMeal.put(mt, 0.0);
+            cByMeal.put(mt, 0.0);
+            fByMeal.put(mt, 0.0);
+        }
+
+        day.computeTotals();
+
+        for (FoodLog log : day.getFoodLogs()) {
+            if (log == null) continue;
+            FoodLog.MealType mt = log.getMealType() == null ? FoodLog.MealType.SNACK : log.getMealType();
+
+            calByMeal.put(mt, calByMeal.get(mt) + log.gtCalories());
+
+            Map<String, Double> m = log.getMacros();
+            pByMeal.put(mt, pByMeal.get(mt) + m.getOrDefault("proteinG", 0.0));
+            cByMeal.put(mt, cByMeal.get(mt) + m.getOrDefault("carbsG", 0.0));
+            fByMeal.put(mt, fByMeal.get(mt) + m.getOrDefault("fatG", 0.0));
+        }
+
+        if (caloriesChart != null) {
+            caloriesChart.getData().clear();
+
+            CategoryAxis xAxis = (CategoryAxis) caloriesChart.getXAxis();
+            if (xAxis != null) xAxis.setLabel("Meal");
+
+            XYChart.Series<String, Number> s = new XYChart.Series<>();
+            s.setName(date.format(DateTimeFormatter.ofPattern("MMM d")));
+
+            for (FoodLog.MealType mt : FoodLog.MealType.values()) {
+                s.getData().add(new XYChart.Data<>(prettyMeal(mt), calByMeal.get(mt)));
+            }
+
+            caloriesChart.getData().add(s);
+        }
+
+        if (macrosChart != null) {
+            macrosChart.getData().clear();
+
+            CategoryAxis xAxis = (CategoryAxis) macrosChart.getXAxis();
+            if (xAxis != null) xAxis.setLabel("Meal");
+
+            XYChart.Series<String, Number> pS = new XYChart.Series<>();
+            pS.setName("Protein");
+            XYChart.Series<String, Number> cS = new XYChart.Series<>();
+            cS.setName("Carbs");
+            XYChart.Series<String, Number> fS = new XYChart.Series<>();
+            fS.setName("Fat");
+
+            for (FoodLog.MealType mt : FoodLog.MealType.values()) {
+                String x = prettyMeal(mt);
+                pS.getData().add(new XYChart.Data<>(x, pByMeal.get(mt)));
+                cS.getData().add(new XYChart.Data<>(x, cByMeal.get(mt)));
+                fS.getData().add(new XYChart.Data<>(x, fByMeal.get(mt)));
+            }
+
+            macrosChart.getData().addAll(pS, cS, fS);
+
+            if (avgCaloriesLabel != null) avgCaloriesLabel.setText("%d".formatted(day.getTotalCalories()));
+            if (avgProteinLabel != null) avgProteinLabel.setText("%dg".formatted((int) Math.round(day.getTotalProteinG())));
+            if (avgCarbsLabel != null) avgCarbsLabel.setText("%dg".formatted((int) Math.round(day.getTotalCarbsG())));
+            if (avgFatLabel != null) avgFatLabel.setText("%dg".formatted((int) Math.round(day.getTotalFatG())));
+        }
+    }
+
+    private String prettyMeal(FoodLog.MealType mt) {
+        return switch (mt) {
+            case BREAKFAST -> "Breakfast";
+            case LUNCH -> "Lunch";
+            case DINNER -> "Dinner";
+            case SNACK -> "Snack";
+        };
     }
 
     @FXML

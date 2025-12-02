@@ -8,6 +8,7 @@ import edu.utsa.cs3443.macromateapp.model.*;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -27,6 +28,7 @@ public class FoodLibraryController {
     @FXML private TextArea notesArea;
     @FXML private Label statusLabel;
     @FXML private Label errorLabel;
+    @FXML private DatePicker logDatePicker;
 
     @FXML private ListView<String> libraryList;
 
@@ -53,11 +55,14 @@ public class FoodLibraryController {
         }
 
         if (foodsList != null) {
-            foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoods()));
+            foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoodsForActiveUser()));
         }
 
         if (libraryList != null) {
             refreshLibrary();
+        }
+        if (logDatePicker != null) {
+            logDatePicker.setValue(LocalDate.now());
         }
 
         hideMessages();
@@ -87,7 +92,7 @@ public class FoodLibraryController {
         String query = q == null ? "" : q.trim().toLowerCase(Locale.ROOT);
 
         if (foodsList != null) {
-            List<Food> filtered = dataManager.getFoods().stream()
+            List<Food> filtered = dataManager.getFoodsForActiveUser().stream()
                     .filter(Objects::nonNull)
                     .filter(f -> query.isEmpty()
                             || safe(f.getName()).contains(query)
@@ -146,16 +151,20 @@ public class FoodLibraryController {
 
         String notes = notesArea == null ? "" : notesArea.getText();
 
+        LocalDate logDate = (logDatePicker != null && logDatePicker.getValue() != null)
+                ? logDatePicker.getValue()
+                : LocalDate.now();
+
         FoodLog log = dataManager.createFoodLogFromFood(
                 UUID.randomUUID().toString(),
                 selectedFood,
                 mt,
                 servings,
-                LocalDateTime.now(),
+                LocalDateTime.of(logDate, LocalTime.now()),
                 notes
         );
 
-        dataManager.addFoodLog(LocalDate.now(), log);
+        dataManager.addFoodLog(logDate, log);
         dataManager.saveAllData();
         showStatus("Added to diary.");
     }
@@ -206,7 +215,7 @@ public class FoodLibraryController {
 
         dataManager.saveAllData();
 
-        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoods()));
+        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoodsForActiveUser()));
         refreshLibrary();
         showStatus("Custom food created.");
     }
@@ -240,7 +249,7 @@ public class FoodLibraryController {
         boolean ok = dataManager.deleteCustomFoodById(target.getId());
         if (!ok) { showError("Could not delete."); return; }
 
-        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoods()));
+        if (foodsList != null) foodsList.setItems(FXCollections.observableArrayList(dataManager.getFoodsForActiveUser()));
         refreshLibrary();
         showStatus("Custom food deleted.");
     }
