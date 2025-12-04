@@ -117,22 +117,22 @@
 
                             <VBox GridPane.columnIndex="0" spacing="2">
                                 <Label fx:id="avgCaloriesLabel" text="0" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
-                                <Label text="Avg Daily Calories" style="-fx-text-fill: #6b7280;"/>
+                                <Label text="Total Daily Calories" style="-fx-text-fill: #6b7280;"/>
                             </VBox>
 
                             <VBox GridPane.columnIndex="1" spacing="2">
                                 <Label fx:id="avgProteinLabel" text="0g" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
-                                <Label text="Avg Daily Protein" style="-fx-text-fill: #6b7280;"/>
+                                <Label text="Total Daily Protein" style="-fx-text-fill: #6b7280;"/>
                             </VBox>
 
                             <VBox GridPane.columnIndex="2" spacing="2">
                                 <Label fx:id="avgCarbsLabel" text="0g" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
-                                <Label text="Avg Daily Carbs" style="-fx-text-fill: #6b7280;"/>
+                                <Label text="Total Daily Carbs" style="-fx-text-fill: #6b7280;"/>
                             </VBox>
 
                             <VBox GridPane.columnIndex="3" spacing="2">
                                 <Label fx:id="avgFatLabel" text="0g" style="-fx-font-size: 22; -fx-font-weight: 900;"/>
-                                <Label text="Avg Daily Fat" style="-fx-text-fill: #6b7280;"/>
+                                <Label text="Total Daily Fat" style="-fx-text-fill: #6b7280;"/>
                             </VBox>
                         </GridPane>
                     </VBox>
