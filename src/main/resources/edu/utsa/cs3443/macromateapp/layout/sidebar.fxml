@@ -22,7 +22,6 @@
         <Insets top="22" right="18" bottom="18" left="18"/>
     </padding>
 
-    <!-- Logo + Name -->
     <VBox alignment="CENTER" spacing="8">
         <ImageView fitHeight="50" fitWidth="50" preserveRatio="true">
             <image>
@@ -30,7 +29,6 @@
             </image>
         </ImageView>
 
-        <!-- <Label text="MacroMate" style="-fx-font-weight: 800; -fx-text-fill: #111827;"/> -->
 
         <Label fx:id="helloLabel"
                text="Hello, User!"
@@ -39,7 +37,6 @@
 
     <Separator/>
 
-    <!-- Navigation Buttons -->
     <Button fx:id="dashboardBtn"
             text="Dashboard"
             maxWidth="1.7976931348623157E308"
@@ -85,10 +82,8 @@
                    -fx-font-weight: 600;
                    -fx-padding: 10 12;"/>
 
-    <!-- Spacer pushes logout button down -->
     <Pane VBox.vgrow="ALWAYS"/>
 
-    <!-- Logout -->
     <Button text="Log Out"
             maxWidth="1.7976931348623157E308"
             onAction="#handleLogout"

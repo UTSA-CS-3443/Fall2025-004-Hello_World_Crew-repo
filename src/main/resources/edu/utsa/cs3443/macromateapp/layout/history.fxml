@@ -16,31 +16,6 @@
 
     <left>
         <fx:include source="sidebar.fxml"/>
-        <!--
-        <VBox prefWidth="220" spacing="10"
-              style="-fx-background-color: #ffffff; -fx-border-color: #e5e7eb; -fx-border-width: 0 1 0 0;">
-            <padding><Insets top="22" right="18" bottom="18" left="18"/></padding>
-
-            <VBox spacing="4">
-                <Label text="MacroMate" style="-fx-font-weight: 800; -fx-text-fill: #111827;"/>
-                <Label fx:id="helloLabel" text="Hello, User!" style="-fx-text-fill: #6b7280;"/>
-            </VBox>
-
-            <Separator/>
-
-            <Button text="Dashboard" maxWidth="1.7976931348623157E308" onAction="#goDashboard"
-                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
-            <Button text="Add Food" maxWidth="1.7976931348623157E308" onAction="#goAddFood"
-                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
-            <Button text="Food Library" maxWidth="1.7976931348623157E308" onAction="#goFoodLibrary"
-                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
-            <Button text="History" maxWidth="1.7976931348623157E308" onAction="#goHistory"
-                    style="-fx-background-color: #d1fae5; -fx-text-fill: #065f46; -fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 12;"/>
-            <Button text="Settings" maxWidth="1.7976931348623157E308" onAction="#goSettings"
-                    style="-fx-background-color: transparent; -fx-text-fill: #374151; -fx-font-weight: 600; -fx-padding: 10 12;"/>
-
-            <Pane VBox.vgrow="ALWAYS"/>
-        </VBox> -->
     </left>
 
     <center>

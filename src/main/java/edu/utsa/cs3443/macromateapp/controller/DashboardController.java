@@ -174,6 +174,7 @@ public class DashboardController {
     @FXML public void openAddLunch() { goAddFood(); }
     @FXML public void openAddDinner() { goAddFood(); }
     @FXML public void openAddSnack() { goAddFood(); }
+
     // Called by the Delete buttons in dashboard.fxml
     @FXML
     public void handleDeleteBreakfastItem() {
