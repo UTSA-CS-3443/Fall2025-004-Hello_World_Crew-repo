@@ -11,9 +11,17 @@ import edu.utsa.cs3443.macromateapp.model.User;
 import java.time.LocalDate;
 import java.util.UUID;
 
+/**
+ * Controller for the Settings view of the MacroMate application.
+ *
+ * <p>This controller allows the active user to update their profile information and manage
+ * nutrition goals. It loads the current user and goal values into the UI, validates input,
+ * persists updates through the {@link edu.utsa.cs3443.macromateapp.model.DataManager}, and
+ * supports navigation to other screens.</p>
+ */
 public class SettingsController {
 
-    private DataManager dataManager;
+    private DataManager dataManager; // Data manager used to load, save, and access application data.
 
     @FXML private Label helloLabel;
 
@@ -28,10 +36,21 @@ public class SettingsController {
     @FXML private Label statusLabel;
     @FXML private Label errorLabel;
 
+    /**
+     * Sets the data manager used by this controller.
+     *
+     * @param dataManager value used by this method
+     */
     public void setDataManager(DataManager dataManager) {
         this.dataManager = dataManager;
     }
 
+    /**
+     * Initializes the controller after its FXML has been loaded.
+     *
+     * <p>This method highlights the sidebar entry, loads the active user's profile information,
+     * loads the active goal values into the form, and hides status/error messages.</p>
+     */
     @FXML
     private void initialize() {
         SidebarController.highlight("settings");
@@ -62,21 +81,41 @@ public class SettingsController {
         hideMessages();
     }
 
+    /**
+     * Hides the status and error messages in the view.
+     */
     private void hideMessages() {
         if (statusLabel != null) { statusLabel.setText(""); statusLabel.setVisible(false); }
         if (errorLabel != null) { errorLabel.setText(""); errorLabel.setVisible(false); }
     }
 
+    /**
+     * Displays a status message in the view.
+     *
+     * @param s value used by this method
+     */
     private void showStatus(String s) {
         if (statusLabel != null) { statusLabel.setText(s); statusLabel.setVisible(true); }
         if (errorLabel != null) { errorLabel.setVisible(false); }
     }
 
+    /**
+     * Displays an error message in the view.
+     *
+     * @param s value used by this method
+     */
     private void showError(String s) {
         if (errorLabel != null) { errorLabel.setText(s); errorLabel.setVisible(true); }
         if (statusLabel != null) { statusLabel.setVisible(false); }
     }
 
+
+    /**
+     * Saves profile changes for the active user.
+     *
+     * <p>This method updates the user's name if provided, and attempts to update the account email
+     * through the data manager when the email field value differs from the current user id.</p>
+     */
     @FXML
     public void handleSaveProfile() {
         hideMessages();
@@ -99,6 +138,12 @@ public class SettingsController {
         showStatus("Profile saved.");
     }
 
+    /**
+     * Saves nutrition goals for the active user.
+     *
+     * <p>This method validates numeric goal fields, creates a new {@link edu.utsa.cs3443.macromateapp.model.Goal}
+     * with a 30-day window starting today, replaces existing goals in the data manager, and persists changes.</p>
+     */
     @FXML
     public void handleSaveGoals() {
         hideMessages();
@@ -130,6 +175,12 @@ public class SettingsController {
         showStatus("Goals saved.");
     }
 
+    /**
+     * Resets goal fields and stored goals to default values.
+     *
+     * <p>This method creates a new default goal, replaces existing goals in the data manager,
+     * persists changes, and updates the UI fields to match the default values.</p>
+     */
     @FXML
     public void handleResetGoals() {
         hideMessages();
@@ -153,6 +204,9 @@ public class SettingsController {
         showStatus("Goals reset.");
     }
 
+    /**
+     * Signs out the active user and returns to the login screen.
+     */
     @FXML
     public void handleSignOut() {
         if (dataManager != null) {
@@ -162,11 +216,11 @@ public class SettingsController {
         MacroMateApplication.switchScene("login.fxml", "MacroMate - Login");
     }
 
-    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); }
-    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); }
-    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); }
-    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); }
-    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); }
+    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); } // Navigates to the dashboard view.
+    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); } // Navigates to the add food view
+    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); } // Navigates to the food library view.
+    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); } // Navigates to the history view.
+    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); } // Navigates to the settings view.
 }
 
 

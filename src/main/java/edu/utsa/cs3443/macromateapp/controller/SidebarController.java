@@ -8,12 +8,17 @@ import edu.utsa.cs3443.macromateapp.MacroMateApplication;
 import edu.utsa.cs3443.macromateapp.model.DataManager;
 import edu.utsa.cs3443.macromateapp.model.User;
 
+/**
+ * Controller for the Sidebar navigation component of the MacroMate application.
+ *
+ * <p>This controller displays a welcome message for the active user, provides navigation
+ * between primary screens, and visually highlights the currently active page.</p>
+ */
 public class SidebarController {
 
-    private static DataManager dataManager;
+    private static DataManager dataManager; // Data manager used to load, save, and access application data.
 
-    // static instance of THIS controller
-    private static SidebarController instance;
+    private static SidebarController instance; // Static reference to the current sidebar controller instance.
 
     @FXML private Label helloLabel;
 
@@ -23,18 +28,32 @@ public class SidebarController {
     @FXML private Button historyBtn;
     @FXML private Button settingsBtn;
 
+    /** Inline style applied to the active/highlighted navigation button. */
     private final String ACTIVE =
             "-fx-background-color: #d1fae5; -fx-text-fill: #065f46; "
                     + "-fx-font-weight: 700; -fx-background-radius: 10; -fx-padding: 10 12;";
 
+    /** Inline style applied to non-active navigation buttons. */
     private final String DEFAULT =
             "-fx-background-color: transparent; -fx-text-fill: #374151; "
                     + "-fx-font-weight: 700; -fx-padding: 10 12;";
 
+    /**
+     * Sets the data manager used by this controller.
+     *
+     * @param dm value used by this method
+     */
     public static void setDataManager(DataManager dm) {
         dataManager = dm;
     }
 
+
+    /**
+     * Initializes the controller after its FXML has been loaded.
+     *
+     * <p>This method stores a static instance reference for cross-controller access and
+     * populates the welcome label using the active user's name when available.</p>
+     */
     @FXML
     private void initialize() {
         // store instance so other controllers can talk to the sidebar
@@ -48,7 +67,11 @@ public class SidebarController {
         }
     }
 
-    // This is what other screens call
+    /**
+     * Highlights the active navigation page in the sidebar.
+     *
+     * @param page value used by this method
+     */
     public static void highlight(String page) {
         if (instance == null) return; // sidebar not loaded yet
 
@@ -70,12 +93,15 @@ public class SidebarController {
     }
 
     // Navigation
-    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); }
-    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); }
-    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); }
-    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); }
-    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); }
+    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); } // Navigates to the dashboard view.
+    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); } // Navigates to the add food view.
+    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); } // Navigates to the food library view.
+    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); } // Navigates to the history view.
+    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); } // Navigates to the settings view.
 
+    /**
+     * Logs out the active user and returns to the login screen.
+     */
     @FXML
     public void handleLogout() {
         if (dataManager != null) {

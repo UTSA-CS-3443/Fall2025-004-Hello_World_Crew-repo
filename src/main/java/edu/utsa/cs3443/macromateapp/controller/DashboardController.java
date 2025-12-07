@@ -16,11 +16,17 @@ import javafx.scene.chart.CategoryAxis;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
-
+/**
+ * Controller for the Dashboard view of the MacroMate application.
+ *
+ * <p>This controller handles UI events from the corresponding FXML layout and coordinates with
+ * the model layer (for example, {@link edu.utsa.cs3443.macromateapp.model.DataManager}) to update
+ * application state and navigate between screens.</p>
+ */
 public class DashboardController {
-
+    /** Data manager used to load, save, and access application data. */
     private DataManager dataManager;
-
+    /** List of all FXML-injected Labels */
     @FXML private Label helloLabel;
     @FXML private Label dateLabel;
 
@@ -60,10 +66,17 @@ public class DashboardController {
     @FXML private Label macrosTitleLabel;
     @FXML private Label summaryTitleLabel;
 
+    /**
+     * Sets the data manager used by this controller.
+     *
+     * @param dataManager value used by this method
+     */
     public void setDataManager(DataManager dataManager) {
         this.dataManager = dataManager;
     }
-
+    /**
+     * Initializes the controller after its FXML has been loaded.
+     */
     @FXML
     private void initialize() {
 
@@ -97,7 +110,9 @@ public class DashboardController {
         }
 
     }
-
+    /**
+     * Refreshes the dashboard view state from the current model data.
+     */
     private void refreshDashboard() {
         DayLog today = dataManager.getDayLog(LocalDate.now());
         if (today == null) return;
@@ -156,7 +171,12 @@ public class DashboardController {
         if (dinnerCaloriesLabel != null) dinnerCaloriesLabel.setText("%.0f kcal".formatted(kcalByMeal.get(FoodLog.MealType.DINNER)));
         if (snackCaloriesLabel != null) snackCaloriesLabel.setText("%.0f kcal".formatted(kcalByMeal.get(FoodLog.MealType.SNACK)));
     }
-
+    /**
+     * Sets the items of a meal list view.
+     *
+     * @param view value used by this method
+     * @param items value used by this method
+     */
     private void setMealList(ListView<String> view, List<String> items) {
         if (view == null) return;
         if (items == null) items = List.of();
@@ -164,16 +184,16 @@ public class DashboardController {
         if (items.isEmpty()) view.setItems(FXCollections.observableArrayList("No items added yet"));
     }
 
-    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); }
-    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); }
-    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); }
-    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); }
-    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); }
+    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); } // Navigates to dashboard view
+    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); } // Navigates to add food view
+    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); } // Navigates to the food library view
+    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); } // Navigates to the history view
+    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); } // Navigates to the settings view
 
-    @FXML public void openAddBreakfast() { goAddFood(); }
-    @FXML public void openAddLunch() { goAddFood(); }
-    @FXML public void openAddDinner() { goAddFood(); }
-    @FXML public void openAddSnack() { goAddFood(); }
+    @FXML public void openAddBreakfast() { goAddFood(); } // Opens the add food view to add breakfast
+    @FXML public void openAddLunch() { goAddFood(); } // Opens the add food view to add lunch
+    @FXML public void openAddDinner() { goAddFood(); } // Opens the add food view to add dinner
+    @FXML public void openAddSnack() { goAddFood(); } //Opens the add food view to add snack
 
     // Called by the Delete buttons in dashboard.fxml
     @FXML
@@ -243,6 +263,9 @@ public class DashboardController {
             refreshDashboard();
         }
     }
+    /**
+     * Displays weekly trends in the charts and updates the weekly summary labels.
+     */
     @FXML
     public void showWeeklyTrends() {
         if (dataManager == null) return;
@@ -301,7 +324,9 @@ public class DashboardController {
             if (avgFatLabel != null) avgFatLabel.setText("%dg".formatted((int) Math.round(sumF / 7.0)));
         }
     }
-
+    /**
+     * Displays daily details for the currently selected date in the date picker.
+     */
     @FXML
     public void showDailyDetails() {
         if (dataManager == null) return;
@@ -387,7 +412,12 @@ public class DashboardController {
             if (avgFatLabel != null) avgFatLabel.setText("%dg".formatted((int) Math.round(day.getTotalFatG())));
         }
     }
-
+    /**
+     * Converts a meal type enum value into a display-friendly string.
+     *
+     * @param mt value used by this method
+     * @return the result of this operation
+     */
     private String prettyMeal(FoodLog.MealType mt) {
         return switch (mt) {
             case BREAKFAST -> "Breakfast";
@@ -396,7 +426,9 @@ public class DashboardController {
             case SNACK -> "Snack";
         };
     }
-
+    /**
+     * Logs out the current user and returns to the login screen.
+     */
     @FXML
     public void handleLogout() {
         // Clear active user if needed

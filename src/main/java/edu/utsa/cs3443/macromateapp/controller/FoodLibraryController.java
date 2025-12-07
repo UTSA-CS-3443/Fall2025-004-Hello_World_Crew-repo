@@ -12,15 +12,19 @@ import java.time.LocalTime;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * Controller for the Food Library (Add Food) view of the MacroMate application.
+ *
+ * <p>This controller manages searching and selecting foods, logging foods to a user's diary,
+ * and creating/deleting custom foods for the active user.</p>
+ */
 public class FoodLibraryController {
 
-    private DataManager dataManager;
-    private Food selectedFood;
+    private DataManager dataManager; // Data manager used to load, save, and access application data.
+    private Food selectedFood; // Currently selected food from the foods list.
 
     @FXML private Label helloLabel;
-
     @FXML private TextField searchField;
-
     @FXML private ListView<Food> foodsList;
     @FXML private Label selectedFoodLabel;
     @FXML private ChoiceBox<FoodLog.MealType> mealTypeChoice;
@@ -29,13 +33,23 @@ public class FoodLibraryController {
     @FXML private Label statusLabel;
     @FXML private Label errorLabel;
     @FXML private DatePicker logDatePicker;
-
     @FXML private ListView<String> libraryList;
 
+    /**
+     * Sets the data manager used by this controller.
+     *
+     * @param dataManager value used by this method
+     */
     public void setDataManager(DataManager dataManager) {
         this.dataManager = dataManager;
     }
 
+    /**
+     * Initializes the controller after its FXML has been loaded.
+     *
+     * <p>This method configures UI defaults, loads foods for the active user, and prepares
+     * search and logging components.</p>
+     */
     @FXML
     private void initialize() {
 
@@ -68,21 +82,37 @@ public class FoodLibraryController {
         hideMessages();
     }
 
+    /**
+     * Hides the status and error messages in the view.
+     */
     private void hideMessages() {
         if (statusLabel != null) { statusLabel.setText(""); statusLabel.setVisible(false); }
         if (errorLabel != null) { errorLabel.setText(""); errorLabel.setVisible(false); }
     }
 
+    /**
+     * Displays a status message in the view.
+     *
+     * @param s value used by this method
+     */
     private void showStatus(String s) {
         if (statusLabel != null) { statusLabel.setText(s); statusLabel.setVisible(true); }
         if (errorLabel != null) { errorLabel.setVisible(false); }
     }
 
+    /**
+     * Displays an error message in the view.
+     *
+     * @param s value used by this method
+     */
     private void showError(String s) {
         if (errorLabel != null) { errorLabel.setText(s); errorLabel.setVisible(true); }
         if (statusLabel != null) { statusLabel.setVisible(false); }
     }
 
+    /**
+     * Filters the foods list and custom foods list based on the current search field text.
+     */
     @FXML
     public void handleSearch() {
         if (dataManager == null) return;
@@ -110,10 +140,19 @@ public class FoodLibraryController {
         }
     }
 
+    /**
+     * Normalizes a string for safe, lower-cased comparisons.
+     *
+     * @param s value used by this method
+     * @return the result of this operation
+     */
     private String safe(String s) {
         return s == null ? "" : s.toLowerCase(Locale.ROOT);
     }
 
+    /**
+     * Handles selection changes in the foods list and updates the selected food label.
+     */
     @FXML
     public void handleSelectFood() {
         if (foodsList == null) return;
@@ -128,6 +167,10 @@ public class FoodLibraryController {
         }
     }
 
+    /**
+     * Creates a food log entry from the currently selected food and adds it to the diary
+     * for the chosen date.
+     */
     @FXML
     public void handleAddToDiary() {
         hideMessages();
@@ -169,6 +212,9 @@ public class FoodLibraryController {
         showStatus("Added to diary.");
     }
 
+    /**
+     * Prompts the user for inputs and creates a new custom food for the active user.
+     */
     @FXML
     public void openCreateCustomFood() {
         hideMessages();
@@ -220,6 +266,9 @@ public class FoodLibraryController {
         showStatus("Custom food created.");
     }
 
+    /**
+     * Deletes the currently selected custom food from the active user's library after confirmation.
+     */
     @FXML
     public void handleDeleteSelectedCustomFood() {
         hideMessages();
@@ -254,6 +303,13 @@ public class FoodLibraryController {
         showStatus("Custom food deleted.");
     }
 
+    /**
+     * Prompts the user for a numeric value in a dialog.
+     *
+     * @param prompt value used by this method
+     * @param defaultValue value used by this method
+     * @return the result of this operation
+     */
     private double askDouble(String prompt, double defaultValue) {
         TextInputDialog d = new TextInputDialog(String.valueOf(defaultValue));
         d.setHeaderText("Create Custom Food");
@@ -267,11 +323,19 @@ public class FoodLibraryController {
         }
     }
 
+    /**
+     * Refreshes the custom food library list for the active user.
+     */
     private void refreshLibrary() {
         if (libraryList == null) return;
         libraryList.setItems(FXCollections.observableArrayList(buildCustomFoodItems()));
     }
 
+    /**
+     * Builds display strings for custom foods belonging to the active user.
+     *
+     * @return the result of this operation
+     */
     private List<String> buildCustomFoodItems() {
         if (dataManager == null || dataManager.getActiveUser() == null) return List.of();
 
@@ -295,14 +359,20 @@ public class FoodLibraryController {
         return out;
     }
 
+    /**
+     * Returns a safe, non-empty display title.
+     *
+     * @param s value used by this method
+     * @return the result of this operation
+     */
     private String safeTitle(String s) {
         return (s == null || s.isBlank()) ? "Food" : s.trim();
     }
 
-    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); }
-    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); }
-    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); }
-    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); }
-    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); }
+    @FXML public void goDashboard() { MacroMateApplication.switchScene("dashboard.fxml", "MacroMate"); } // Navigates to the dashboard view.
+    @FXML public void goAddFood() { MacroMateApplication.switchScene("add_food.fxml", "MacroMate - Add Food"); } // Navigates to the add food view
+    @FXML public void goFoodLibrary() { MacroMateApplication.switchScene("food_library.fxml", "MacroMate - Food Library"); } // Navigates to the food library view.
+    @FXML public void goHistory() { MacroMateApplication.switchScene("history.fxml", "MacroMate - History"); } // Navigates to the history view.
+    @FXML public void goSettings() { MacroMateApplication.switchScene("settings.fxml", "MacroMate - Settings"); } // Navigates to the settings view.
 }
 
