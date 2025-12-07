@@ -13,24 +13,64 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
 
+/**
+ * Central data manager responsible for loading, saving, and accessing all
+ * persistent data used by the MacroMate application. This includes:
+ *
+ * <ul>
+ *     <li>User accounts and authentication</li>
+ *     <li>Food library items</li>
+ *     <li>Custom foods created by users</li>
+ *     <li>Daily logs of meals and nutrient totals</li>
+ *     <li>Active goals and progress tracking</li>
+ * </ul>
+ *
+ * <p>All data is serialized to a single file inside a user-specific data directory.
+ * The manager also provides helper methods for computing hashed passwords, seeding
+ * defaults, updating logs, and associating entries with the active user.</p>
+ */
 public class DataManager implements Serializable {
+
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /** Currently authenticated user (or null if no user is logged in). */
     private User activeUser;
 
+    /** List of stored user goals. */
     private List<Goal> goals;
+
+    /** Global list of standard food items. */
     private List<Food> foods;
+
+    /** List of custom foods created by all users. */
     private List<CustomFood> customFoods;
+
+    /** List of all recorded DayLogs for all users. */
     private List<DayLog> dayLogs;
+
+    /** Fast lookup table for DayLog entries: (userId | date) -> DayLog. */
     private transient Map<String, DayLog> dayLogIndex;
 
+    /** Path to the directory containing serialized app data. */
     private Path dataDirectory;
 
+    /** Map of email -> User object. */
     private Map<String, User> usersByEmail;
+
+    /** Map of email -> password salt. */
     private Map<String, String> passwordSaltByEmail;
+
+    /** Map of email -> hashed password. */
     private Map<String, String> passwordHashByEmail;
 
+    /**
+     * Constructs a new DataManager using the provided data directory.
+     * All collections are initialized empty and populated later through
+     * {@link #loadAllData()}.
+     *
+     * @param dataDirectory directory where all persistent app data will be stored
+     */
     public DataManager(Path dataDirectory) {
         this.dataDirectory = dataDirectory;
         this.goals = new ArrayList<>();
@@ -43,22 +83,52 @@ public class DataManager implements Serializable {
         this.dayLogIndex = new HashMap<>();
     }
 
+    /**
+     * Returns the active user.
+     *
+     * @return the currently active user, or null if none is logged in
+     */
     public User getActiveUser() {
         return activeUser;
     }
 
+    /**
+     * Sets the currently active user.
+     *
+     * @param activeUser the user to authenticate as
+     */
     public void setActiveUser(User activeUser) {
         this.activeUser = activeUser;
     }
 
+    /**
+     * Returns list of goals.
+     *
+     * @return list of all goals
+     */
     public List<Goal> getGoals() {
         return goals;
     }
 
+    /**
+     * Returns list of food items.
+     *
+     * @return list of all standard food items
+     */
     public List<Food> getFoods() {
         return foods;
     }
 
+    /**
+     * Returns all food items visible to the currently active user.
+     * This includes:
+     * <ul>
+     *     <li>Global foods</li>
+     *     <li>User's own generated Food entries based on CustomFood</li>
+     * </ul>
+     *
+     * @return visible food list for the active user
+     */
     public List<Food> getFoodsForActiveUser() {
         if (foods == null) return List.of();
 
@@ -93,20 +163,41 @@ public class DataManager implements Serializable {
         return out;
     }
 
+    /**
+     * Returns list of custom foods.
+     *
+     * @return list of all custom foods
+     */
     public List<CustomFood> getCustomFoods() {
         return customFoods;
     }
 
+    /**
+     * Returns list of day logs.
+     *
+     * @return list of all day logs
+     */
     public List<DayLog> getDayLogs() {
         return dayLogs;
     }
 
+    /**
+     * Builds a unique key for (userId, date) lookup in {@link #dayLogIndex}.
+     *
+     * @param userId user identifier
+     * @param date date of the log
+     * @return string key formatted as "userId|yyyy-mm-dd"
+     */
     private static String dayKey(String userId, LocalDate date) {
         String u = (userId == null) ? "" : userId;
         String d = (date == null) ? "" : date.toString();
         return u + "|" + d;
     }
 
+    /**
+     * Loads all serialized data from disk into memory. If no data file exists, default foods are seeded.
+     * If loading fails, the system resets to empty collections and seeds default foods.
+     */
     public void loadAllData() {
         try {
             Files.createDirectories(dataDirectory);
@@ -151,6 +242,9 @@ public class DataManager implements Serializable {
         }
     }
 
+    /**
+     * Saves all persistent data to disk. Serialization suppresses errors to avoid interrupting application flow.
+     */
     public void saveAllData() {
         try {
             Files.createDirectories(dataDirectory);
@@ -169,6 +263,15 @@ public class DataManager implements Serializable {
         }
     }
 
+    /**
+     * Registers a new user by email, hashing and salting the password before saving.
+     * Automatically logs the new user in.
+     *
+     * @param fullName the user's full name
+     * @param email    user email (used as ID)
+     * @param password plaintext password to hash
+     * @return true if registration succeeded, false if email exists or invalid input
+     */
     public boolean registerUser(String fullName, String email, String password) {
         String e = normalizeEmail(email);
         if (e.isEmpty()) return false;
@@ -190,6 +293,13 @@ public class DataManager implements Serializable {
         return true;
     }
 
+    /**
+     * Authenticates a user by comparing salted+hashed passwords.
+     *
+     * @param email    user email
+     * @param password plaintext password to verify
+     * @return the authenticated {@link User}, or null on failure
+     */
     public User authenticate(String email, String password) {
         String e = normalizeEmail(email);
         if (!usersByEmail.containsKey(e)) return null;
@@ -202,6 +312,13 @@ public class DataManager implements Serializable {
         return activeUser;
     }
 
+    /**
+     * Updates a user's account email, migrating all relevant data and credentials.
+     *
+     * @param oldEmail current email
+     * @param newEmail desired new email
+     * @return true if update succeeds, false if invalid or duplicate email
+     */
     public boolean updateAccountEmail(String oldEmail, String newEmail) {
         String oldE = normalizeEmail(oldEmail);
         String newE = normalizeEmail(newEmail);
@@ -229,6 +346,9 @@ public class DataManager implements Serializable {
         return true;
     }
 
+    /**
+     * Rebuilds the day log index for fast (userId, date) lookups.
+     */
     private void rebuildDayLogIndex() {
         if (dayLogIndex == null) dayLogIndex = new HashMap<>();
         dayLogIndex.clear();
@@ -243,6 +363,12 @@ public class DataManager implements Serializable {
         }
     }
 
+    /**
+     * Retrieves the user's log for the given date, creating one if it does not exist.
+     *
+     * @param date date of interest
+     * @return existing or newly created DayLog
+     */
     public DayLog getDayLog(LocalDate date) {
         LocalDate d = (date == null) ? LocalDate.now() : date;
 
@@ -263,13 +389,23 @@ public class DataManager implements Serializable {
         return created;
     }
 
+    /**
+     * Adds a food log entry to the specified date.
+     *
+     * @param date date to attach the log to
+     * @param log  food log entry
+     */
     public void addFoodLog(LocalDate date, FoodLog log) {
         if (log == null) return;
         DayLog day = getDayLog(date);
         day.addFoodLog(log);
     }
 
-
+    /**
+     * Returns the goal that is active today.
+     *
+     * @return currently active goal, or null if none are active
+     */
     public Goal getActiveGoal() {
         LocalDate today = LocalDate.now();
         for (Goal g : goals) {
@@ -278,6 +414,12 @@ public class DataManager implements Serializable {
         return null;
     }
 
+    /**
+     * Resolves the display name of a food or custom food by ID.
+     *
+     * @param foodOrCustomFoodId ID of the food entry
+     * @return matching name, or empty string if not found
+     */
     public String resolveFoodNameById(String foodOrCustomFoodId) {
         if (foodOrCustomFoodId == null) return "";
         for (Food f : foods) {
@@ -289,6 +431,18 @@ public class DataManager implements Serializable {
         return "";
     }
 
+    /**
+     * Creates a new FoodLog entry using a standard Food item, computing totals
+     * based on the given number of servings.
+     *
+     * @param id        log ID
+     * @param food      food item used
+     * @param mealType  meal category
+     * @param servings  number of servings
+     * @param timestamp timestamp of consumption
+     * @param notes     optional notes
+     * @return constructed FoodLog instance
+     */
     public FoodLog createFoodLogFromFood(String id, Food food, FoodLog.MealType mealType, double servings, LocalDateTime timestamp, String notes) {
         FoodLog log = new FoodLog(id, food == null ? "" : food.getId(), mealType, servings, timestamp, notes);
         if (food != null) {
@@ -299,6 +453,18 @@ public class DataManager implements Serializable {
         return log;
     }
 
+    /**
+     * Creates a new FoodLog entry using a CustomFood item. Totals are computed
+     * by scaling per-serving values.
+     *
+     * @param id          log ID
+     * @param customFood  custom food used
+     * @param mealType    meal category
+     * @param servings    servings multiplier
+     * @param timestamp   timestamp of consumption
+     * @param notes       optional notes
+     * @return constructed FoodLog instance
+     */
     public FoodLog createFoodLogFromCustomFood(String id, CustomFood customFood, FoodLog.MealType mealType, double servings, LocalDateTime timestamp, String notes) {
         FoodLog log = new FoodLog(id, customFood == null ? "" : customFood.getId(), mealType, servings, timestamp, notes);
         if (customFood != null) {
@@ -315,6 +481,13 @@ public class DataManager implements Serializable {
         return log;
     }
 
+    /**
+     * Deletes a CustomFood by ID and removes all associated generated Food items
+     * and FoodLog references.
+     *
+     * @param customFoodId ID of the custom food to delete
+     * @return true if any data was removed
+     */
     public boolean deleteCustomFoodById(String customFoodId) {
         if (customFoodId == null || customFoodId.isBlank()) return false;
 
@@ -332,18 +505,23 @@ public class DataManager implements Serializable {
         return removedCustom || removedGeneratedFood;
     }
 
+    /** Safely casts an object to a List. */
     @SuppressWarnings("unchecked")
     private static <T> List<T> castList(Object o) {
         if (o instanceof List<?> l) return (List<T>) l;
         return new ArrayList<>();
     }
 
+    /** Safely casts an object to a Map. */
     @SuppressWarnings("unchecked")
     private static <K, V> Map<K, V> castMap(Object o) {
         if (o instanceof Map<?, ?> m) return (Map<K, V>) m;
         return new HashMap<>();
     }
 
+    /**
+     * Seeds initial default foods if the food list is empty. Ensures that first-time users have data to interact with.
+     */
     private void seedDefaultsIfNeeded() {
         if (foods == null) foods = new ArrayList<>();
         if (!foods.isEmpty()) return;
@@ -353,16 +531,19 @@ public class DataManager implements Serializable {
         foods.add(new Food("f3", "Broccoli", "Generic", "Veg", 1.0, 55, 3.7, 11.2, 0.6));
     }
 
+    /** Normalizes an email to lowercase and trims whitespace. */
     private static String normalizeEmail(String email) {
         return email == null ? "" : email.trim().toLowerCase(Locale.ROOT);
     }
 
+    /** Generates a random salt of the specified byte length encoded as hex. */
     private static String randomSaltHex(int bytes) {
         byte[] b = new byte[bytes];
         new SecureRandom().nextBytes(b);
         return toHex(b);
     }
 
+    /** Computes a SHA-256 digest and returns hex representation. */
     private static String sha256Hex(byte[] bytes) {
         try {
             MessageDigest md = MessageDigest.getInstance("SHA-256");
@@ -372,6 +553,7 @@ public class DataManager implements Serializable {
         }
     }
 
+    /** Converts a byte array to a hex string. */
     private static String toHex(byte[] b) {
         StringBuilder sb = new StringBuilder(b.length * 2);
         for (byte x : b) sb.append(String.format("%02x", x));
