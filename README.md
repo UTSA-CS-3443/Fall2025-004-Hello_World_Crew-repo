@@ -49,10 +49,12 @@ To run MacroMate, you need:
 
 ## How to Run
 
-```bash
+
 # 1. Clone this repository
+```bash
 git clone https://github.com/UTSA-CS-3443/Fall2025-004-Hello_World_Crew-repo.git
 cd Fall2025-004-Hello_World_Crew-repo
+```
 
 # 2. Open the project in your IDE
 # IntelliJ IDEA:
@@ -65,7 +67,9 @@ cd Fall2025-004-Hello_World_Crew-repo
 # 3. Configure JavaFX (if needed)
 # Ensure the JavaFX SDK path is set in your IDE
 # Add VM options to run JavaFX applications (example for IntelliJ):
-# --module-path /path/to/javafx-sdk-24.0.2/lib --add-modules javafx.controls,javafx.fxml
+```bash
+--module-path /path/to/javafx-sdk-24.0.2/lib --add-modules javafx.controls,javafx.fxml
+```
 
 # 4. Build and Run
 # Run Main.java (or the class containing the main() method)
