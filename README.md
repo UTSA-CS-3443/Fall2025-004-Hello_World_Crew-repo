@@ -69,5 +69,5 @@ cd Fall2025-004-Hello_World_Crew-repo
 ```
 
 ### 4. Build and Run
-* Run Main.java (or the class containing the main() method)
+* Run MacroMateApplication.java 
 * The app will open in a window and run fully offline
