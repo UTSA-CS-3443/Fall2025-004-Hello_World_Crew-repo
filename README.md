@@ -53,6 +53,7 @@ To run MacroMate, you need:
 ### 1. Clone this repository
 ```bash
 git clone https://github.com/UTSA-CS-3443/Fall2025-004-Hello_World_Crew-repo.git
+
 cd Fall2025-004-Hello_World_Crew-repo
 ```
 
