@@ -57,12 +57,9 @@ cd Fall2025-004-Hello_World_Crew-repo
 ```
 
 ### 2. Open the project in your IDE
-* IntelliJ IDEA:
--   File → Open → Select project folder
-* Eclipse:
--   File → Import → Existing Maven/Gradle Project
-* VS Code:
--   Open the folder with the Java Extension Pack installed
+* **IntelliJ IDEA:** File → Open → Select project folder
+* **Eclipse:** File → Import → Existing Maven/Gradle Project
+* **VS Code:** Open the folder with the Java Extension Pack installed
 
 ### 3. Configure JavaFX (if needed)
 * Ensure the JavaFX SDK path is set in your IDE
